@@ -1,0 +1,44 @@
+struct TimestampedAmount {
+    amount: Number,
+    timestamp: DateTime
+};
+
+function total(entries: List<TimestampedAmount>) returns Number {
+    return entries.map(\(p: TimestampedAmount) returns Number -> p.amount).sum();
+};
+
+protocol[issuer, payee] Iou(forAmount: Number) {
+    guard forAmount > 0;
+
+    initial state unpaid;
+    final state paid;
+    final state forgiven;
+
+    payments: List<TimestampedAmount> = listOf<TimestampedAmount>();
+
+    function amountOwed() returns Number {
+        return forAmount - total(payments);
+    };
+
+    permission[issuer] pay(amount: Number) | unpaid {
+        guard amount > 0;
+        guard amount <= amountOwed();
+
+        p: TimestampedAmount = TimestampedAmount {
+            amount: amount, timestamp: now()
+        };
+        payments = payments.add(p);
+
+        if (amountOwed() == 0) {
+            become paid;
+        };
+    };
+
+    permission[payee] forgive() | unpaid {
+        become forgiven;
+    };
+
+    permission[issuer, payee] getAmountOwed() returns Number {
+        return amountOwed();
+    };
+}

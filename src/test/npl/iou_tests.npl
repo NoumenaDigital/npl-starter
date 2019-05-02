@@ -1,0 +1,16 @@
+require("../../main/npl/iou.npl");
+
+function test_plan(test: Any) returns Any {
+    test.plan(2);
+};
+
+function test_initial_amount_owed(test: Any) returns Any {
+    iou: Iou = Iou['issuer', 'payee'](100);
+    test.ok(iou.getAmountOwed['issuer']() == 100, "amount owed should equal 100");
+};
+
+function test_amount_owed_after_pay(test: Any) returns Any {
+    iou: Iou = Iou['issuer', 'payee'](100);
+    iou.pay['issuer'](50);
+    test.ok(iou.getAmountOwed['issuer']() == 50, "amount owed should equal 50");
+};

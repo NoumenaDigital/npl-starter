@@ -38,7 +38,7 @@ protocol[issuer, payee] Iou(forAmount: Number) {
         become forgiven;
     };
 
-    permission[issuer, payee] getAmountOwed() returns Number {
+    permission[issuer|payee] getAmountOwed() returns Number {
         return amountOwed();
     };
 }

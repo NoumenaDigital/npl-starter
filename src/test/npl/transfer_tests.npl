@@ -1,0 +1,19 @@
+require("../../main/npl/transfer.npl");
+
+const deliverableOwner: Party = 'd';
+const moneyOwner: Party = 'm';
+
+function test_swap(test: Test) {
+    // Two assets
+    deliverable: Deliverable = Deliverable[deliverableOwner]();
+    money: Money = Money[moneyOwner]();
+
+    // An agreed-upon swap
+    swap: Swap = Swap[deliverableOwner, moneyOwner](deliverable, money);
+
+    // Attempt a swap
+    result: Any = test.pcall(\() returns Any -> swap.swap[deliverableOwner]());
+
+    // Expect success
+    test.ok(result.success, "Ownership swap should succeed");
+};

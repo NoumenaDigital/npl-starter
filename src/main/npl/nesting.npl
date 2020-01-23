@@ -1,0 +1,30 @@
+protocol[company] Conditions(currentRate: Number) {
+    lastRateChange: DateTime = now();
+
+    permission[company] setRate(newRate: Number) after lastRateChange.plus(months(1)) {
+        guard currentRate > 0;
+        guard newRate <= (currentRate + 0.5);
+
+        this.currentRate = newRate;
+        this.lastRateChange = now();
+    };
+};
+
+protocol[customer, company] Product(quantity: Number, rate: Number) {
+    initial state active;
+    final state cancelled;
+
+    conditions: Conditions = Conditions[company](rate);
+
+    permission[customer] computeMonthlyCost() returns Number | active {
+        return quantity * conditions.currentRate;
+    };
+
+    permission[customer] cancel() | active {
+        become cancelled;
+    };
+
+    permission[company & customer] changeConditions(newConditions: Conditions) {
+        this.conditions = newConditions;
+    };
+};

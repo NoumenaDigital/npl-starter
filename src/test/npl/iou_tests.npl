@@ -1,16 +1,31 @@
 require("../../main/npl/iou.npl");
 
-function test_plan(test: Any) returns Any {
-    test.plan(2);
+const issuer: Party = 'issuer';
+const payee: Party = 'payee';
+
+function test_initial_amount_owed(test: Test) {
+    iou: Iou = Iou[issuer, payee](100);
+
+    test.ok(iou.getAmountOwed[issuer]() == 100, "Amount owed should equal initial value");
 };
 
-function test_initial_amount_owed(test: Any) returns Any {
-    iou: Iou = Iou['issuer', 'payee'](100);
-    test.ok(iou.getAmountOwed['issuer']() == 100, "amount owed should equal initial value");
+function test_amount_owed_after_pay(test: Test) {
+    iou: Iou = Iou[issuer, payee](100);
+    iou.pay[issuer](50);
+
+    test.ok(iou.getAmountOwed[issuer]() == 50, "Amount owed should reflect payment");
 };
 
-function test_amount_owed_after_pay(test: Any) returns Any {
-    iou: Iou = Iou['issuer', 'payee'](100);
-    iou.pay['issuer'](50);
-    test.ok(iou.getAmountOwed['issuer']() == 50, "amount owed should reflect payment");
+function test_pay_negative_amount(test: Test) {
+    iou: Iou = Iou[issuer, payee](100);
+    result: Any = test.pcall(\() returns Any -> iou.pay[issuer](-10));
+
+    test.ok(result.failure, "Paying negative amounts should fail");
+};
+
+function test_overpaying(test: Test) {
+    iou: Iou = Iou[issuer, payee](100);
+    result: Any = test.pcall(\() returns Any -> iou.pay[issuer](101));
+
+    test.ok(result.failure, "Overpaying should fail");
 };

@@ -1,48 +1,48 @@
 require("../../main/npl/nesting.npl")
 
-const customer: Party = 'customer';
-const company: Party = 'company';
+const CUSTOMER: Party = 'customer';
+const COMPANY: Party = 'company';
 
 function test_cost(test: Test) {
-    p: Product = Product[customer, company](5, 0.85);
+    p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Compute and verify initial cost
-    initialCost: Number = p.computeMonthlyCost[customer]();
+    initialCost: Number = p.computeMonthlyCost[CUSTOMER]();
     test.ok(initialCost == 4.25, "Monthly cost should be correct");
 };
 
 function test_illegal_rate_increase(test: Test) {
-    p: Product = Product[customer, company](5, 0.85);
+    p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Attempt an illegal rate increase, and expect failure
-    attemptedRateRaise: Any = test.pcall(\() returns Any -> p.conditions.setRate[company](0.9));
+    attemptedRateRaise: Any = test.pcall(\() returns Any -> p.conditions.setRate[COMPANY](0.9));
     test.ok(attemptedRateRaise.failure, "Raising the rate should fail");
 };
 
 function test_rate_increase(test: Test) {
-    p: Product = Product[customer, company](5, 0.85);
+    p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Forward the clock, attempt increase
     test.setTime(now().plus(months(1)));
-    p.conditions.setRate[company](0.9);
+    p.conditions.setRate[COMPANY](0.9);
 
     // Compute and verify new cost
-    newCost: Number = p.computeMonthlyCost[customer]();
+    newCost: Number = p.computeMonthlyCost[CUSTOMER]();
     test.ok(newCost == 4.5, "Monthly cost should be updated and correct");
 };
 
 function test_change_of_conditions(test: Test) {
-    p: Product = Product[customer, company](5, 0.85);
+    p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Compute and verify initial cost
-    initialCost: Number = p.computeMonthlyCost[customer]();
+    initialCost: Number = p.computeMonthlyCost[CUSTOMER]();
     test.ok(initialCost == 4.25, "Monthly cost should be correct");
 
     // Set new conditions
-    newCnd: Conditions = Conditions[company](0.80);
-    p.changeConditions[company, customer](newCnd);
+    newCnd: Conditions = Conditions[COMPANY](0.80);
+    p.changeConditions[COMPANY, CUSTOMER](newCnd);
 
     // Compute and verify new cost
-    newCost: Number = p.computeMonthlyCost[customer]();
+    newCost: Number = p.computeMonthlyCost[CUSTOMER]();
     test.ok(newCost == 4.00, "New monthly cost should be correct");
 };

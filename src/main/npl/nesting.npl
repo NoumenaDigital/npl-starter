@@ -1,9 +1,11 @@
 protocol[company] Conditions(currentRate: Number) {
+    guard(currentRate > 0, "Rate must be strictly positive");
+
     lastRateChange: DateTime = now();
 
     permission[company] setRate(newRate: Number) after lastRateChange.plus(months(1)) {
-        guard currentRate > 0;
-        guard newRate <= (currentRate + 0.5);
+        guard(newRate > 0, "Rate must be strictly positive");
+        guard(newRate <= (currentRate + 0.5), "Rate increases may not exceed 0.5");
 
         this.currentRate = newRate;
         this.lastRateChange = now();

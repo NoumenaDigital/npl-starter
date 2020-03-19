@@ -12,8 +12,10 @@ function test_swap(test: Test) {
     swap: Swap = Swap[OWNER_DELIVERABLE, OWNER_MONEY](deliverable, money);
 
     // Attempt a swap
-    result: Any = test.pcall(\() returns Any -> swap.swap[OWNER_DELIVERABLE]());
+    result: PcallResult<Unit> = test.pcall(\() returns Unit -> swap.swap[OWNER_DELIVERABLE]());
 
-    // Expect success
-    test.ok(result.success, "Ownership swap should succeed");
+    match (result) {
+        is Unit -> test.ok(true, "Ownership swap should succeed")
+        else -> test.ok(false, "Unexpected failure")
+    };
 };

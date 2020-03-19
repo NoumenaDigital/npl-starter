@@ -15,8 +15,12 @@ function test_illegal_rate_increase(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Attempt an illegal rate increase, and expect failure
-    attemptedRateRaise: Any = test.pcall(\() returns Any -> p.conditions.setRate[COMPANY](0.9));
-    test.ok(attemptedRateRaise.failure, "Raising the rate should fail");
+    attemptedRateRaise: PcallResult<Unit> = test.pcall(\() returns Unit -> p.conditions.setRate[COMPANY](0.9));
+
+    match (attemptedRateRaise) {
+        is PcallFail -> test.ok(true, "Raising the rate should fail")
+        else -> test.ok(false, "Expected failure")
+    };
 };
 
 function test_rate_increase(test: Test) {

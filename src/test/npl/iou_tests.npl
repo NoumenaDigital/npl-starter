@@ -18,14 +18,20 @@ function test_amount_owed_after_pay(test: Test) {
 
 function test_pay_negative_amount(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
-    result: Any = test.pcall(\() returns Any -> iou.pay[ISSUER](-10));
+    result: PcallResult<Unit> = test.pcall(\() returns Unit -> iou.pay[ISSUER](-10));
 
-    test.ok(result.failure, "Paying negative amounts should fail");
+    match (result) {
+        is PcallFail -> test.ok(true, "Paying negative amounts should fail")
+        else -> test.ok(false, "Expected failure")
+    };
 };
 
 function test_overpaying(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
-    result: Any = test.pcall(\() returns Any -> iou.pay[ISSUER](101));
+    result: PcallResult<Unit> = test.pcall(\() returns Unit -> iou.pay[ISSUER](101));
 
-    test.ok(result.failure, "Overpaying should fail");
+    match (result) {
+        is PcallFail -> test.ok(true, "Overpaying should fail")
+        else -> test.ok(false, "Expected failure")
+    };
 };

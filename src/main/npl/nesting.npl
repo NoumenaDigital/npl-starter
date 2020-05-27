@@ -1,8 +1,10 @@
+@api
 protocol[company] Conditions(currentRate: Number) {
     guard(currentRate > 0, "Rate must be strictly positive");
 
     lastRateChange: DateTime = now();
 
+    @api
     permission[company] setRate(newRate: Number) after lastRateChange.plus(months(1)) {
         guard(newRate > 0, "Rate must be strictly positive");
         guard(newRate <= (currentRate + 0.5), "Rate increases may not exceed 0.5");
@@ -12,20 +14,24 @@ protocol[company] Conditions(currentRate: Number) {
     };
 };
 
+@api
 protocol[customer, company] Product(quantity: Number, rate: Number) {
     initial state active;
     final state cancelled;
 
     conditions: Conditions = Conditions[company](rate);
 
+    @api
     permission[customer] computeMonthlyCost() returns Number | active {
         return quantity * conditions.currentRate;
     };
 
+    @api
     permission[customer] cancel() | active {
         become cancelled;
     };
 
+    @api
     permission[company & customer] changeConditions(newConditions: Conditions) {
         this.conditions = newConditions;
     };

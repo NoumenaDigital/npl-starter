@@ -1,4 +1,4 @@
-require("../../main/npl/iou.npl");
+package samples
 
 const ISSUER: Party = 'issuer';
 const PAYEE: Party = 'payee';

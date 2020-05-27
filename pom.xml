@@ -19,14 +19,18 @@
                 <groupId>com.noumenadigital.platform</groupId>
                 <artifactId>npl-maven-plugin</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
-                <configuration>
-                    <inputDirectory>${project.basedir}/src/test/npl</inputDirectory>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>npl-test</goal>
+                            <goal>npl-codegen</goal>
                         </goals>
+                        <configuration>
+                            <sources>${project.basedir}/src/main/npl</sources>
+                            <testSources>${project.basedir}/src/test/npl</testSources>
+                            <codegenInputDirectory>${project.basedir}/src/main/npl</codegenInputDirectory>
+                            <codegenOutputDirectory>${project.build.directory}/generated-sources/npl-codegen</codegenOutputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

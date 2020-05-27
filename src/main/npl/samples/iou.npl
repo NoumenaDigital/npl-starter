@@ -1,3 +1,5 @@
+package samples
+
 struct TimestampedAmount {
     amount: Number,
     timestamp: DateTime
@@ -7,6 +9,7 @@ function total(entries: List<TimestampedAmount>) returns Number {
     return entries.map(\(p: TimestampedAmount) returns Number -> p.amount).sum();
 };
 
+@api
 protocol[issuer, payee] Iou(forAmount: Number) {
     guard(forAmount > 0, "Initial amount must be strictly positive");
 
@@ -14,12 +17,13 @@ protocol[issuer, payee] Iou(forAmount: Number) {
     final state paid;
     final state forgiven;
 
-    payments: List<TimestampedAmount> = listOf<TimestampedAmount>();
+    private payments: List<TimestampedAmount> = listOf<TimestampedAmount>();
 
     function amountOwed() returns Number {
         return forAmount - total(payments);
     };
 
+    @api
     permission[issuer] pay(amount: Number) | unpaid {
         guard(amount > 0, "Amount must be strictly positive");
         guard(amount <= amountOwed(), "Amount may not exceed amount owed");
@@ -34,10 +38,12 @@ protocol[issuer, payee] Iou(forAmount: Number) {
         };
     };
 
+    @api
     permission[payee] forgive() | unpaid {
         become forgiven;
     };
 
+    @api
     permission[issuer|payee] getAmountOwed() returns Number {
         return amountOwed();
     };

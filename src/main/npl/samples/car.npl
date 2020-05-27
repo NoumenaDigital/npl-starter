@@ -1,0 +1,13 @@
+package samples
+
+@api
+protocol[owner] Car(@api model: Text, @api color: Text) {
+    @api
+    permission[owner] changeColor(newColor: Text) {
+        this.color = newColor;
+    };
+
+    permission[owner & *newOwner] transfer() {
+        this.owner = newOwner;
+    };
+};

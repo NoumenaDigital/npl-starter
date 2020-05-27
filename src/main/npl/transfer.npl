@@ -1,19 +1,23 @@
+@api
 protocol[owner] Deliverable() {
     permission[owner & *newOwner] transfer() {
         this.owner = newOwner;
     };
 };
 
+@api
 protocol[owner] Money() {
     permission[owner & *newOwner] transfer() {
         this.owner = newOwner;
     };
 };
 
-protocol[deliverableOwner, moneyOwner] Swap(deliverable: Deliverable, money: Money) {
+@api
+protocol[deliverableOwner, moneyOwner] Swap(private deliverable: Deliverable, private money: Money) {
     initial state unswapped;
     final state swapped;
 
+    @api
     permission[deliverableOwner | moneyOwner] swap() | unswapped {
         deliverable.transfer[deliverableOwner, moneyOwner]();
         money.transfer[moneyOwner, deliverableOwner]();

@@ -9,3 +9,4 @@ tags
 *.iml
 .*.swp
 *.tokens
+.m2/repository/

@@ -1,0 +1,31 @@
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+
+stages:
+  - bump
+  - test
+
+bump-versions:
+  stage: bump
+  only:
+    - master
+  tags:
+    - build
+  script:
+    - git remote remove deploy 2> /dev/null || true
+    - git remote add deploy git@gitlab-deployments:noumena/npl-starter.git
+    # It would be nice to also use a fixed verion for npl-maven-plugin and update it but the versions
+    # plugin can only display plugin updates (with versions:display-plugin-updates) but can't apply them.
+    - mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false
+    - git commit -a -m 'Bumped parent pom version' || echo 'Parent pom version has not changed.'
+    # GitLab works with a detached head so we have to specify the current branch to push.
+    # Note: unlike commit, push doesn't file if there's nothing to push.
+    - git push deploy HEAD:$CI_COMMIT_REF_NAME
+
+build-test-verify:
+  stage: test
+  tags:
+    - build
+  script:
+    - mvn $MAVEN_CLI_OPTS clean verify

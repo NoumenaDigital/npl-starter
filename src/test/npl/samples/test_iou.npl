@@ -3,12 +3,14 @@ package samples
 const ISSUER: Party = 'issuer';
 const PAYEE: Party = 'payee';
 
+@test
 function test_initial_amount_owed(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
 
     test.ok(iou.getAmountOwed[ISSUER]() == 100, "Amount owed should equal initial value");
 };
 
+@test
 function test_amount_owed_after_pay(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
     iou.pay[ISSUER](50);
@@ -16,6 +18,7 @@ function test_amount_owed_after_pay(test: Test) {
     test.ok(iou.getAmountOwed[ISSUER]() == 50, "Amount owed should reflect payment");
 };
 
+@test
 function test_pay_negative_amount(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
     result: PcallResult<Unit> = test.pcall(\() returns Unit -> iou.pay[ISSUER](-10));
@@ -26,6 +29,7 @@ function test_pay_negative_amount(test: Test) {
     };
 };
 
+@test
 function test_overpaying(test: Test) {
     iou: Iou = Iou[ISSUER, PAYEE](100);
     result: PcallResult<Unit> = test.pcall(\() returns Unit -> iou.pay[ISSUER](101));

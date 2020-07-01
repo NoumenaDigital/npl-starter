@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.noumenadigital</groupId>
     <artifactId>npl-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -12,6 +11,19 @@
         <artifactId>parent-pom</artifactId>
         <version>1.5.1.RELEASE</version>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.noumenadigital.platform</groupId>
+            <artifactId>engine-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -30,6 +42,25 @@
                             <testSources>${project.basedir}/src/test/npl</testSources>
                             <codegenInputDirectory>${project.basedir}/src/main/npl</codegenInputDirectory>
                             <codegenOutputDirectory>${project.build.directory}/generated-sources/npl-codegen</codegenOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>target/generated-sources/npl-codegen</source>
+                            </sourceDirs>
                         </configuration>
                     </execution>
                 </executions>

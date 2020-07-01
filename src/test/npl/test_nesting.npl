@@ -1,6 +1,7 @@
 const CUSTOMER: Party = 'customer';
 const COMPANY: Party = 'company';
 
+@test
 function test_cost(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
@@ -9,6 +10,7 @@ function test_cost(test: Test) {
     test.ok(initialCost == 4.25, "Monthly cost should be correct");
 };
 
+@test
 function test_illegal_rate_increase(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
@@ -21,6 +23,7 @@ function test_illegal_rate_increase(test: Test) {
     };
 };
 
+@test
 function test_rate_increase(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
@@ -33,6 +36,7 @@ function test_rate_increase(test: Test) {
     test.ok(newCost == 4.5, "Monthly cost should be updated and correct");
 };
 
+@test
 function test_change_of_conditions(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 

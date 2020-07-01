@@ -1,9 +1,13 @@
 package samples
 
+enum Color {
+    Red, Blue, Yellow, Green, Black
+};
+
 @api
-protocol[owner] Car(@api model: Text, @api color: Text) {
+protocol[owner] Car(model: Text, color: Color) {
     @api
-    permission[owner] changeColor(newColor: Text) {
+    permission[owner] changeColor(newColor: Color) {
         this.color = newColor;
     };
 

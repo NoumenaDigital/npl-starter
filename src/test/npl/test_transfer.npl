@@ -1,6 +1,7 @@
 const OWNER_DELIVERABLE: Party = 'd';
 const OWNER_MONEY: Party = 'm';
 
+@test
 function test_swap(test: Test) {
     // Two assets
     deliverable: Deliverable = Deliverable[OWNER_DELIVERABLE]();

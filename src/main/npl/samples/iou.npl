@@ -31,7 +31,7 @@ protocol[issuer, payee] Iou(forAmount: Number) {
         p: TimestampedAmount = TimestampedAmount {
             amount: amount, timestamp: now()
         };
-        payments = payments.add(p);
+        payments = payments.with(p);
 
         if (amountOwed() == 0) {
             become paid;

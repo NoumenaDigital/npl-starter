@@ -13,5 +13,5 @@ function test_swap(test: Test) {
     // Attempt a swap
     swap.swap[OWNER_DELIVERABLE]();
 
-    test.assertEquals(swap.states.swapped, swap.currentState, "Ownership swap should succeed");
+    test.assertEquals(swap.states.swapped, swap.currentState);
 };

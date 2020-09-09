@@ -7,7 +7,7 @@ function test_cost(test: Test) {
 
     // Compute and verify initial cost
     initialCost: Number = p.computeMonthlyCost[CUSTOMER]();
-    test.ok(initialCost == 4.25, "Monthly cost should be correct");
+    test.assertEquals(4.25, initialCost);
 };
 
 @test
@@ -15,12 +15,7 @@ function test_illegal_rate_increase(test: Test) {
     p: Product = Product[CUSTOMER, COMPANY](5, 0.85);
 
     // Attempt an illegal rate increase, and expect failure
-    attemptedRateRaise: PcallResult<Unit> = test.pcall(\() returns Unit -> p.conditions.setRate[COMPANY](0.9));
-
-    match (attemptedRateRaise) {
-        is PcallFail -> test.ok(true, "Raising the rate should fail")
-        else -> test.ok(false, "Expected failure")
-    };
+    test.assertFails(\() returns Unit -> p.conditions.setRate[COMPANY](0.9), "Raising the rate should fail");
 };
 
 @test
@@ -33,7 +28,7 @@ function test_rate_increase(test: Test) {
 
     // Compute and verify new cost
     newCost: Number = p.computeMonthlyCost[CUSTOMER]();
-    test.ok(newCost == 4.5, "Monthly cost should be updated and correct");
+    test.assertEquals(4.5, newCost);
 };
 
 @test
@@ -42,7 +37,7 @@ function test_change_of_conditions(test: Test) {
 
     // Compute and verify initial cost
     initialCost: Number = p.computeMonthlyCost[CUSTOMER]();
-    test.ok(initialCost == 4.25, "Monthly cost should be correct");
+    test.assertEquals(4.25, initialCost);
 
     // Set new conditions
     newCnd: Conditions = Conditions[COMPANY](0.80);
@@ -50,5 +45,5 @@ function test_change_of_conditions(test: Test) {
 
     // Compute and verify new cost
     newCost: Number = p.computeMonthlyCost[CUSTOMER]();
-    test.ok(newCost == 4.00, "New monthly cost should be correct");
+    test.assertEquals(4.00, newCost);
 };

@@ -11,10 +11,7 @@ function test_swap(test: Test) {
     swap: Swap = Swap[OWNER_DELIVERABLE, OWNER_MONEY](deliverable, money);
 
     // Attempt a swap
-    result: PcallResult<Unit> = test.pcall(\() returns Unit -> swap.swap[OWNER_DELIVERABLE]());
+    swap.swap[OWNER_DELIVERABLE]();
 
-    match (result) {
-        is Unit -> test.ok(true, "Ownership swap should succeed")
-        else -> test.ok(false, "Unexpected failure")
-    };
+    test.assertEquals(swap.states.swapped, swap.currentState, "Ownership swap should succeed");
 };

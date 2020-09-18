@@ -1,4 +1,6 @@
-package samples
+package objects
+
+use objects.iou.Iou
 
 const ISSUER: Party = 'issuer';
 const PAYEE: Party = 'payee';

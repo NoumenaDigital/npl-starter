@@ -1,4 +1,4 @@
-package samples
+package objects.car
 
 enum Color {
     Red, Blue, Yellow, Green, Black

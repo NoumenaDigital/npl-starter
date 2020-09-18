@@ -1,4 +1,7 @@
-package samples
+package objects.settle
+
+use objects.car.Car
+use objects.iou.Iou
 
 @api
 protocol[iouOwner, carOwner] Settle(iou: Iou, car: Car) {

@@ -10,7 +10,7 @@ function total(entries: List<TimestampedAmount>) returns Number {
 };
 
 @api
-protocol[issuer, payee] Iou(forAmount: Number) {
+protocol[issuer, payee] Iou(var forAmount: Number) {
     guard(forAmount > 0, "Initial amount must be strictly positive");
 
     initial state unpaid;

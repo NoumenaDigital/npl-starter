@@ -5,7 +5,7 @@ enum Color {
 };
 
 @api
-protocol[owner] Car(model: Text, color: Color) {
+protocol[owner] Car(model: Text, var color: Color) {
     @api
     permission[owner] changeColor(newColor: Color) {
         this.color = newColor;

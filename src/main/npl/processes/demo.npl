@@ -1,9 +1,8 @@
-package objects.demo
+package processes
 
 use objects.car.Car
 use objects.car.Color
 use objects.iou.Iou
-use objects.settle.Settle
 
 const bob: Party = 'Bob';
 const alice: Party = 'Alice';

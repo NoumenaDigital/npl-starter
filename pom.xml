@@ -34,7 +34,9 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>npl-puml</goal>
                             <goal>npl-test</goal>
+                            <goal>npl-compile</goal>
                             <goal>npl-codegen</goal>
                         </goals>
                         <configuration>

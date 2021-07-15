@@ -12,8 +12,8 @@ function demoIou() {
 }
 
 function demoSettle() {
-    car: Car = Car[bob]("VW Beetle", Color.Red);
-    iou: Iou = Iou[bob, alice](5000);
+    var car = Car[bob]("VW Beetle", Color.Red);
+    var iou = Iou[bob, alice](5000);
 
     Settle[alice, bob](iou, car);
 };

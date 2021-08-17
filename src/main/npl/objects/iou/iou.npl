@@ -17,7 +17,7 @@ protocol[issuer, payee] Iou(var forAmount: Number) {
     final state paid;
     final state forgiven;
 
-    private payments: List<TimestampedAmount> = listOf<TimestampedAmount>();
+    private var payments = listOf<TimestampedAmount>();
 
     function amountOwed() returns Number {
         return forAmount - total(payments);
@@ -28,9 +28,11 @@ protocol[issuer, payee] Iou(var forAmount: Number) {
         guard(amount > 0, "Amount must be strictly positive");
         guard(amount <= amountOwed(), "Amount may not exceed amount owed");
 
-        p: TimestampedAmount = TimestampedAmount {
-            amount: amount, timestamp: now()
+        var p = TimestampedAmount {
+            amount: amount,
+            timestamp: now()
         };
+
         payments = payments.with(p);
 
         if (amountOwed() == 0) {

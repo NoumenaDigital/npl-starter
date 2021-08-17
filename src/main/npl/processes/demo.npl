@@ -4,8 +4,8 @@ use objects.car.Car
 use objects.car.Color
 use objects.iou.Iou
 
-const bob: Party = 'Bob';
-const alice: Party = 'Alice';
+const bob = 'Bob';
+const alice = 'Alice';
 
 function demoIou() {
     Iou[bob, alice](100);

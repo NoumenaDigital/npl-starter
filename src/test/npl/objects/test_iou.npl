@@ -2,8 +2,8 @@ package objects
 
 use objects.iou.Iou
 
-const ISSUER: Party = 'issuer';
-const PAYEE: Party = 'payee';
+const ISSUER = 'issuer';
+const PAYEE = 'payee';
 
 @test
 function test_initial_amount_owed(test: Test) {

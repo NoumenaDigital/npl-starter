@@ -1,9 +1,5 @@
 name: "Bump parent-pom version"
-on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+on: workflow_dispatch
 
 env:
   MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"

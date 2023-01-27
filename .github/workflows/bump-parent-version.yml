@@ -1,0 +1,45 @@
+name: "Bump parent-pom version"
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+env:
+  MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
+  MAVEN_OPTS: >-
+    -Dorg.slf4j.simpleLogger.showDateTime=true 
+    -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
+  GITHUB_REPO_USER: "${{ secrets.MAVEN_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.MAVEN_PASSWORD }}"
+
+jobs:
+  bump-parent-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+      - uses: actions/checkout@v3
+
+      - name: "Set up Java"
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "17"
+          cache: "maven"
+
+      - name: "Configure automerge user"
+        run: |
+          git config user.email "deploy@noumenadigital.com"
+          git config user.name "automerge"
+
+      - name: "Update parent-pom version"
+        run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false"
+
+      - name: "Verify with new version"
+        run: "mvn $MAVEN_CLI_OPTS clean verify"
+
+      - name: "Commit and push"
+        run: |
+          git commit -am "Bumped parent-pom version" || echo "Parent pom version has not changed"
+          git push

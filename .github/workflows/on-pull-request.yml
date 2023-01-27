@@ -1,0 +1,23 @@
+name: Verify PR
+
+on:
+  pull_request
+
+env:
+  MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
+  MAVEN_OPTS: >-
+    -Dorg.slf4j.simpleLogger.showDateTime=true 
+    -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
+  GITHUB_REPO_USER: "${{ secrets.MAVEN_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.MAVEN_PASSWORD }}"
+
+jobs:
+  build-test-verify:
+    name: "Build and test"
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      - name: "Verify"
+        run: mvn $MAVEN_CLI_OPTS clean verify

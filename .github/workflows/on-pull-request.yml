@@ -20,4 +20,4 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
       - name: "Verify"
-        run: mvn $MAVEN_CLI_OPTS clean verify
+        run: "mvn $MAVEN_CLI_OPTS clean verify"

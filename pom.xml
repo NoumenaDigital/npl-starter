@@ -7,9 +7,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <parent>
-        <groupId>com.noumenadigital</groupId>
+        <groupId>com.noumenadigital.platform</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.6.7.RELEASE</version>
+        <version>2022.1.93</version>
     </parent>
 
     <dependencies>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.noumenadigital.platform</groupId>
             <artifactId>engine-client</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>2022.1.93</version>
         </dependency>
     </dependencies>
 

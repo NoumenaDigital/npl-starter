@@ -19,5 +19,13 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v3
+
+      - name: "Set up Java"
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "17"
+          cache: "maven"
+
       - name: "Verify"
         run: "mvn $MAVEN_CLI_OPTS clean verify"

@@ -1,6 +1,10 @@
 name: "Bump parent-pom version"
-on: workflow_dispatch
-
+on:
+  workflow_dispatch:
+    inputs:
+      PLATFORM_VERSION:
+        description: 'Version of platform to use for parent-pom'
+        required: true
 env:
   MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
   MAVEN_OPTS: >-
@@ -35,7 +39,18 @@ jobs:
       - name: "Verify with new version"
         run: "mvn $MAVEN_CLI_OPTS clean verify"
 
-      - name: "Commit and push"
-        run: |
-          git commit -am "Bumped parent-pom version" || echo "Parent pom version has not changed"
-          git push
+      - name: "Create Pull Request"
+        uses: peter-evans/create-pull-request@v4
+        id: cpr
+        with:
+          title: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
+          commit-message: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
+          branch: "bump-${{ inputs.PLATFORM_VERSION }}"
+          delete-branch: true
+
+      - name: "Enable Pull Request Automerge"
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash

@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.noumenadigital.platform</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>2022.1.91</version>
+        <version>2022.1.93</version>
     </parent>
 
     <dependencies>

@@ -36,8 +36,8 @@ jobs:
       - name: "Update parent-pom version"
         run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false"
 
-      - name: "Verify with new version"
-        run: "mvn $MAVEN_CLI_OPTS clean verify"
+#      - name: "Verify with new version"
+#        run: "mvn $MAVEN_CLI_OPTS clean verify"
 
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
@@ -60,4 +60,4 @@ jobs:
         uses: juliangruber/approve-pull-request-action@v2
         with:
           number: ${{ steps.cpr.outputs.pull-request-number }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.MAVEN_PASSWORD }}

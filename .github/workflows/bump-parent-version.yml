@@ -1,0 +1,58 @@
+name: "Bump parent-pom version"
+on:
+  workflow_dispatch:
+    inputs:
+      PLATFORM_VERSION:
+        description: "Version of platform to use for parent-pom"
+        required: true
+env:
+  MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
+  MAVEN_OPTS: >-
+    -Dorg.slf4j.simpleLogger.showDateTime=true 
+    -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
+    -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
+  GITHUB_REPO_USER: "${{ secrets.MAVEN_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.MAVEN_PASSWORD }}"
+
+jobs:
+  bump-parent-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - name: "Set up Java"
+        uses: actions/setup-java@v3
+        with:
+          distribution: "adopt"
+          java-version: "17"
+          cache: "maven"
+
+      - name: "Update parent-pom version"
+        run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false"
+
+      - name: "Verify with new version"
+        run: "mvn $MAVEN_CLI_OPTS clean verify"
+
+      - name: "Create Pull Request"
+        uses: peter-evans/create-pull-request@v4
+        id: cpr
+        with:
+          title: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
+          commit-message: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
+          branch: "bump-${{ inputs.PLATFORM_VERSION }}"
+          delete-branch: true
+
+      - name: "Enable Pull Request Automerge"
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
+
+      - name: "Approve Pull Request"
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: juliangruber/approve-pull-request-action@v2
+        with:
+          number: ${{ steps.cpr.outputs.pull-request-number }}
+          github-token: ${{ secrets.MAVEN_PASSWORD }}

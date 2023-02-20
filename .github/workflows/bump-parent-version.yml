@@ -39,7 +39,7 @@ jobs:
         id: cpr
         with:
           title: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
-          commit-message: "Bump parent-pom version to ${{ inputs.PLATFORM_VERSION }}"
+          commit-message: "Bump parent-pom version to ${{ inputs.PLATFO RM_VERSION }}"
           branch: "bump-${{ inputs.PLATFORM_VERSION }}"
           delete-branch: true
 

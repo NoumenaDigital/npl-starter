@@ -28,16 +28,11 @@ jobs:
           java-version: "17"
           cache: "maven"
 
-      - name: "Configure automerge user"
-        run: |
-          git config user.email "deploy@noumenadigital.com"
-          git config user.name "automerge"
-
       - name: "Update parent-pom version"
         run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false"
 
-#      - name: "Verify with new version"
-#        run: "mvn $MAVEN_CLI_OPTS clean verify"
+      - name: "Verify with new version"
+        run: "mvn $MAVEN_CLI_OPTS clean verify"
 
       - name: "Create Pull Request"
         uses: peter-evans/create-pull-request@v4
@@ -48,14 +43,14 @@ jobs:
           branch: "bump-${{ inputs.PLATFORM_VERSION }}"
           delete-branch: true
 
-      #      - name: "Enable Pull Request Automerge"
-      #        if: steps.cpr.outputs.pull-request-operation == 'created'
-      #        uses: peter-evans/enable-pull-request-automerge@v2
-      #        with:
-      #          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-      #          merge-method: squash
+      - name: "Enable Pull Request Automerge"
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
 
-      - name: Auto approve
+      - name: "Approve Pull Request"
         if: steps.cpr.outputs.pull-request-operation == 'created'
         uses: juliangruber/approve-pull-request-action@v2
         with:

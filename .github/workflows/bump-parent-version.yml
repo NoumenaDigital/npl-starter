@@ -11,8 +11,8 @@ env:
     -Dorg.slf4j.simpleLogger.showDateTime=true 
     -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
-  GITHUB_REPO_USER: "${{ secrets.MAVEN_USERNAME }}"
-  GITHUB_REPO_PASS: "${{ secrets.MAVEN_PASSWORD }}"
+  GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
 
 jobs:
   bump-parent-version:
@@ -55,4 +55,4 @@ jobs:
         uses: juliangruber/approve-pull-request-action@v2
         with:
           number: ${{ steps.cpr.outputs.pull-request-number }}
-          github-token: ${{ secrets.MAVEN_PASSWORD }}
+          github-token: ${{ secrets.GH_PASSWORD }}

@@ -10,7 +10,7 @@ env:
     -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
   GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
-  GITHUB_REPO_PASS: "${{ secrets.MAVEN_PASSWORD }}"
+  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
 
 jobs:
   build-test-verify:

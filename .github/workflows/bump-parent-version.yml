@@ -30,7 +30,7 @@ jobs:
           cache: "maven"
 
       - name: "Update parent-pom version"
-        run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false"
+        run: "mvn $MAVEN_CLI_OPTS versions:update-parent -DgenerateBackupPoms=false -DparentVersion=[${{ inputs.PLATFORM_VERSION }}]"
 
       - name: "Verify with new version"
         run: "mvn $MAVEN_CLI_OPTS clean verify"

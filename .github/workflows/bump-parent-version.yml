@@ -58,14 +58,24 @@ jobs:
           number: ${{ steps.cpr.outputs.pull-request-number }}
           github-token: ${{ secrets.GH_PASSWORD }}
 
-      - name: "Report build failed"
-        if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
-        run: ./bin/scripts/ci/send_slack_message "$MESSAGE"
-        env:
-          MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|npl started platform update build> failed for platform release ${{ inputs.PLATFORM_VERSION }}."
-
       - name: "Report PR created"
         if: ${{ steps.cpr.outputs.pull-request-operation == 'created' }}
-        run: ./bin/scripts/ci/send_slack_message "$MESSAGE"
+        uses: rtCamp/action-slack-notify@v2
         env:
-          MESSAGE: "Merge <${{ steps.cpr.outputs.pull-request-url }}|#${{ steps.cpr.outputs.pull-request-number }}> to bump the NPL starter to platform version ${{ inputs.PLATFORM_VERSION }}."
+          SLACK_WEBHOOK: ${{ secrets.SLACK_URL }}
+          SLACK_USERNAME: "GitHub"
+          SLACK_TITLE: "NPL Starter platform version upgraded successfully"
+          SLACK_CHANNEL: "#platform"
+          SLACK_MESSAGE: "Merge <${{ steps.cpr.outputs.pull-request-url }}|#${{ steps.cpr.outputs.pull-request-number }}> to bump the NPL starter to platform version ${{ inputs.PLATFORM_VERSION }}."
+          SLACK_MINIMAL: true
+
+      - name: "Report build failed"
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_URL }}
+          SLACK_USERNAME: "GitHub"
+          SLACK_TITLE: "NPL Starter platform version upgraded failed"
+          SLACK_CHANNEL: "#platform"
+          SLACK_MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|npl started platform update build> failed for platform release ${{ inputs.PLATFORM_VERSION }}."
+          SLACK_MINIMAL: true

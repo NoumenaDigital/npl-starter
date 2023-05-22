@@ -44,13 +44,6 @@ jobs:
           branch: "bump-${{ inputs.PLATFORM_VERSION }}"
           delete-branch: true
 
-      - name: "Enable pull request automerge"
-        if: steps.cpr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method: squash
-
       - name: "Approve pull request"
         if: steps.cpr.outputs.pull-request-operation == 'created'
         uses: juliangruber/approve-pull-request-action@v2
@@ -77,5 +70,5 @@ jobs:
           SLACK_USERNAME: "GitHub"
           SLACK_TITLE: "NPL Starter platform version upgraded failed"
           SLACK_CHANNEL: "#platform"
-          SLACK_MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|npl started platform update build> failed for platform release ${{ inputs.PLATFORM_VERSION }}."
+          SLACK_MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|npl-starter build> failed for platform release ${{ inputs.PLATFORM_VERSION }}."
           SLACK_MINIMAL: true

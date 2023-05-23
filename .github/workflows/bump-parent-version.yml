@@ -19,7 +19,7 @@ jobs:
   bump-parent-version:
     env:
       SLACK_WEBHOOK: ${{ secrets.SLACK_URL }}
-      SLACK_USERNAME: "NoumenaDigital bot"
+      SLACK_USERNAME: "bumperBot"
       SLACK_ICON: "https://avatars.githubusercontent.com/u/56019787?s=50&v=4"
       SLACK_CHANNEL: "#platform"
       SLACK_FOOTER: "npl-starter#bump-parent-version.yml"

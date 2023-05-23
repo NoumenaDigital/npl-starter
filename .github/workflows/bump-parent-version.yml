@@ -22,7 +22,7 @@ jobs:
       SLACK_USERNAME: "NoumenaDigital bot"
       SLACK_ICON: "https://avatars.githubusercontent.com/u/56019787?s=50&v=4"
       SLACK_CHANNEL: "#platform"
-      SLACK_FOOTER: "platform#publish-release.yml"
+      SLACK_FOOTER: "Triggered from npl-starter#bump-parent-version.yml"
       MSG_MINIMAL: true
 
     runs-on: ubuntu-latest

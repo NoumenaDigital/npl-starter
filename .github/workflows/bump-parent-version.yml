@@ -21,7 +21,7 @@ jobs:
       SLACK_WEBHOOK: ${{ secrets.SLACK_URL }}
       SLACK_USERNAME: "bumperBot"
       SLACK_ICON: "https://avatars.githubusercontent.com/u/56019787?s=50&v=4"
-      SLACK_CHANNEL: "#platform"
+      SLACK_CHANNEL: "#platform-status"
       SLACK_FOOTER: "npl-starter#bump-parent-version.yml"
       MSG_MINIMAL: true
 
@@ -70,5 +70,5 @@ jobs:
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: "NPL Starter platform version upgraded failed"
+          SLACK_TITLE: "NPL Starter platform version upgrade failed"
           SLACK_MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|npl-starter build> failed for platform release ${{ inputs.PLATFORM_VERSION }}."

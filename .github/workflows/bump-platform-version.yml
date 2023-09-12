@@ -18,7 +18,7 @@ env:
   GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
 
   PLATFORM_VERSION_TAG_LINK: "https://github.com/NoumenaDigital/platform/releases/tag/${{ inputs.PLATFORM_VERSION }}"
-  SLACK_WEBHOOK: ${{ secrets.SLACK_URL }}
+  SLACK_WEBHOOK: "${{ secrets.SLACK_URL }}"
   SLACK_USERNAME: "bumperBot"
   SLACK_ICON: "https://avatars.githubusercontent.com/u/56019787?s=50&v=4"
   SLACK_CHANNEL: "#platform-status"

@@ -8,15 +8,15 @@ on:
         required: true
 
 env:
-  CI_PIPELINE_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
   MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
   MAVEN_OPTS: >-
     -Dorg.slf4j.simpleLogger.showDateTime=true 
     -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
-  GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
-  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
 
+  CI_PIPELINE_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
   PLATFORM_VERSION_TAG_LINK: "https://github.com/NoumenaDigital/platform/releases/tag/${{ inputs.PLATFORM_VERSION }}"
   SLACK_WEBHOOK: "${{ secrets.SLACK_URL }}"
   SLACK_USERNAME: "bumperBot"

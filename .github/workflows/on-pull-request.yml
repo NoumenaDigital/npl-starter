@@ -1,16 +1,16 @@
-name: Verify PR
+name: "Verify PR"
 
 on:
   pull_request
 
 env:
+  GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
+  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
   MAVEN_CLI_OPTS: "-s ${{ github.workspace }}/.m2/settings.xml --batch-mode"
   MAVEN_OPTS: >-
     -Dorg.slf4j.simpleLogger.showDateTime=true 
     -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
-  GITHUB_REPO_USER: "${{ secrets.GH_USERNAME }}"
-  GITHUB_REPO_PASS: "${{ secrets.GH_PASSWORD }}"
 
 jobs:
   build-test-verify:
@@ -23,7 +23,7 @@ jobs:
       - name: "Set up Java"
         uses: actions/setup-java@v3
         with:
-          distribution: "adopt"
+          distribution: "corretto"
           java-version: "17"
           cache: "maven"
 

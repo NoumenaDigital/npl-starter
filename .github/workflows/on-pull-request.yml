@@ -12,16 +12,6 @@ env:
     -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss.SSS
     -Dmaven.wagon.httpconnectionManager.ttlSeconds=60
 
-#todo 22 experiment
-  CI_PIPELINE_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-  SLACK_WEBHOOK: "${{ secrets.SLACK_URL }}"
-  SLACK_USERNAME: "bumperBot"
-  SLACK_ICON: "https://avatars.githubusercontent.com/u/56019787?s=50&v=4"
-  SLACK_CHANNEL: "#platform-status"
-  SLACK_TITLE: " " # needs to be a space rather than omitted in order to suppress the title
-  SLACK_FOOTER: "npl-starter#xxx.yml"
-  MSG_MINIMAL: true
-
 jobs:
   build-test-verify:
     name: "Build and test"
@@ -38,19 +28,4 @@ jobs:
           cache: "maven"
 
       - name: "Verify"
-        run: "mvn $MAVEN_CLI_OPTS xxx"
-
-  send-failure-notification:
-    name: "Report failure"
-    runs-on: "ubuntu-latest"
-    if: ${{ failure() }} || ${{ cancelled() }}
-
-    needs:
-      - build-test-verify
-
-    steps:
-      - name: "Send slack notification"
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_MESSAGE: "The <${{ env.CI_PIPELINE_URL }}|xxx build> failed to ..."
-          SLACK_COLOR: "failure"
+        run: "mvn $MAVEN_CLI_OPTS clean verify"

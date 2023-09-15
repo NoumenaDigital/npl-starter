@@ -16,7 +16,7 @@
         <dependency>
             <groupId>com.noumenadigital.platform</groupId>
             <artifactId>engine-client</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
@@ -25,20 +25,18 @@
             <plugin>
                 <groupId>com.noumenadigital.platform</groupId>
                 <artifactId>npl-maven-plugin</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.parent.version}</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>npl-puml</goal>
-                            <goal>npl-test</goal>
-                            <goal>npl-compile</goal>
                             <goal>npl-codegen</goal>
+                            <goal>npl-puml</goal>
+                            <goal>npl-compile</goal>
+                            <goal>npl-test-compile</goal>
+                            <goal>npl-test</goal>
                         </goals>
                         <configuration>
-                            <sources>${project.basedir}/src/main/npl</sources>
-                            <testSources>${project.basedir}/src/test/npl</testSources>
-                            <codegenInputDirectory>${project.basedir}/src/main/npl</codegenInputDirectory>
-                            <codegenOutputDirectory>${project.build.directory}/generated-sources/npl-codegen</codegenOutputDirectory>
+                            <enableCompilerOptimisations>true</enableCompilerOptimisations>
                         </configuration>
                     </execution>
                 </executions>

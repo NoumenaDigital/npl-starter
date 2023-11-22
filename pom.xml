@@ -12,6 +12,14 @@
         <platform.version>2023.3.3</platform.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.noumenadigital.platform</groupId>
+            <artifactId>npl-maven-plugin-public</artifactId>
+            <version>2023.3.3</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

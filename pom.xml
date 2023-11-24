@@ -8,7 +8,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>1.8.20</kotlin.version>
         <platform.version>2023.3.3</platform.version>
     </properties>
 

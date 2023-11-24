@@ -12,14 +12,6 @@
         <platform.version>2023.3.3</platform.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.noumenadigital.platform</groupId>
-            <artifactId>npl-maven-plugin-public</artifactId>
-            <version>2023.3.3</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -29,6 +21,7 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>npl-codegen</goal>
                             <goal>npl-puml</goal>
                             <goal>npl-compile</goal>
                             <goal>npl-test-compile</goal>
@@ -36,25 +29,6 @@
                         </goals>
                         <configuration>
                             <enableCompilerOptimisations>true</enableCompilerOptimisations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>target/generated-sources/npl-codegen</source>
-                            </sourceDirs>
                         </configuration>
                     </execution>
                 </executions>

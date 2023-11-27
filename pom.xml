@@ -3,29 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.noumenadigital.platform</groupId>
     <artifactId>npl-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <parent>
-        <groupId>com.noumenadigital.platform</groupId>
-        <artifactId>parent-pom</artifactId>
-        <version>2023.3.3</version>
-    </parent>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.noumenadigital.platform</groupId>
-            <artifactId>engine-client</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-    </dependencies>
+    <properties>
+        <platform.version>2023.3.3</platform.version>
+    </properties>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>com.noumenadigital.platform</groupId>
                 <artifactId>npl-maven-plugin</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${platform.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -40,32 +31,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>target/generated-sources/npl-codegen</source>
-                            </sourceDirs>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.gantsign.maven</groupId>
-                <artifactId>ktlint-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
     </build>

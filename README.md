@@ -45,8 +45,6 @@ When the car is transferred, an IOU issued by the first car owner is forgiven.
 This example can help you get familiar with the key concepts of NPL like protocols and state machines.
 To implement your own use-case, you can create new folders and files in the `src/main/npl` folder.
 
-More explanations and advanced examples are available in the [Library](https://github.com/NoumenaDigital/library) repository.
-A short tutorial is also available in the [NPL Academy](https://github.com/NoumenaDigital/npl-academy-plugin).
 The [NOUMENA documentation](https://documentation.noumenadigital.com/language/) provides more details about the language.
 
 ### Run your code

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.noumenadigital.platform</groupId>
+    <artifactId>npl-starter</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <properties>
+        <platform.version>2023.3.3</platform.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.noumenadigital.platform</groupId>
+                <artifactId>npl-maven-plugin</artifactId>
+                <version>${platform.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>npl-codegen</goal>
+                            <goal>npl-puml</goal>
+                            <goal>npl-compile</goal>
+                            <goal>npl-test-compile</goal>
+                            <goal>npl-test</goal>
+                        </goals>
+                        <configuration>
+                            <enableCompilerOptimisations>true</enableCompilerOptimisations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

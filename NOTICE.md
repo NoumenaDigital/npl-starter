@@ -1,1 +1,1 @@
-Copyright 2023, Noumena Digital AG <info@noumenadigital.com>
+Copyright 2024, Noumena Digital AG <info@noumenadigital.com>

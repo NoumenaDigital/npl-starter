@@ -7,7 +7,7 @@ Starter project intended to be a quick start for writing NPL.
 Clone the project using:
 
 ```
-git clone git@gitlab.noumenadigital.com:noumena/npl-starter.git
+git clone git@github.com:NoumenaDigital/npl-starter.git
 ```
 
 Install the [NPL-Dev](https://plugins.jetbrains.com/plugin/22954-noumena-protocol-language-npl-) plugin in IntelliJ.

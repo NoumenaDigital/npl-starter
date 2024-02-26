@@ -4,9 +4,7 @@ Starter project intended to be a quick start for writing NPL.
 
 ## Installation
 
-Clone the project using:
-
-Two methods are available for cloning and utilizing the project
+Two methods are available for cloning and utilizing the project:
 
 1) Via the command shell, first create a directory and then execute the git clone command
 ```

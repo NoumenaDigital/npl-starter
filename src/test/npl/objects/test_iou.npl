@@ -1,12 +1,15 @@
 package objects
 
-use objects.iou.Iou
+use objects.iou.Iou;
+use sample.v1.concat;
 
 const ISSUER = 'issuer';
 const PAYEE = 'payee';
 
 @test
 function test_initial_amount_owed(test: Test) -> {
+    info(concat("NPL contrib ", "is enabled."));
+
     var iou = Iou[ISSUER, PAYEE](100);
 
     test.assertEquals(100, iou.getAmountOwed[ISSUER](), "Amount owed should equal initial value");

@@ -68,3 +68,4 @@ From the command line, tests can be run with the maven plugin: `mvn clean test`
 For any question, reach out to us at [info@noumenadigital.com](mailto:info@noumenadigital.com).
 
 What interaction will you be modelling next?
+

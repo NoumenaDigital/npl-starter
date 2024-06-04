@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <platform.version>2024.1.6</platform.version>
+        <platform.version>2024.1.3</platform.version>
     </properties>
 
     <build>
@@ -27,7 +27,9 @@
                             <goal>npl-test</goal>
                         </goals>
                         <configuration>
-                            <enableCompilerOptimisations>true</enableCompilerOptimisations>
+                            <sources>${project.basedir}/src/main/npl-1.0.0</sources>
+                            <testSources>${project.basedir}/src/test/npl</testSources>
+                            <codegenInputDirectory>${project.basedir}/src/main/npl-1.0.0</codegenInputDirectory>
                         </configuration>
                     </execution>
                 </executions>

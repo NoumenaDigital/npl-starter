@@ -43,8 +43,4 @@ protocol[issuer, payee] Iou(var forAmount: Number) {
         return amountOwed();
     };
 
-    @api
-    permission[issuer] doStuff() {
-
-    };
 }

@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Deploy to UAT" type="com.noumenadigital.npl.idea.run.paas.deploy"
+                   baseUrl="https://paas.uat.noumenadigital.com" appName="9db991e1-9ea0-476f-981d-fe5676bd2e5d"
+                   username="admin@noumena.cloud" sourcePath="$PROJECT_DIR$/src/main" rapidDeploy="true"
+                   configurationId="09b3fa6d-509d-49ff-8dc2-9c4218c8b938" pwModified="1717488072465">
+        <method v="2"/>
+    </configuration>
+</component>

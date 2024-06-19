@@ -1,9 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Deploy to shared-dev" type="com.noumenadigital.npl.idea.run.paas.deploy"
-                   baseUrl="https://app-paas.shared-dev.noumenadigital.com"
-                   appName="a8eb416e-7c07-4a4e-9f3b-dc0af9950c5c" username="admin@noumena.cloud"
-                   sourcePath="$PROJECT_DIR$/src/main" rapidDeploy="true"
-                   configurationId="09b3fa6d-509d-49ff-8dc2-9c4218c8b938" pwModified="1717488232760">
-        <method v="2"/>
-    </configuration>
+  <configuration default="false" name="Deploy to shared-dev" type="com.noumenadigital.npl.idea.run.paas.deploy" baseUrl="https://app-paas.shared-dev.noumenadigital.com" appName="a2634175-f06a-4fba-b3b8-1c83459f2910" username="admin@noumena.cloud" sourcePath="$PROJECT_DIR$/src/main" rapidDeploy="true" configurationId="09b3fa6d-509d-49ff-8dc2-9c4218c8b938" pwModified="1718782058017">
+    <method v="2" />
+  </configuration>
 </component>

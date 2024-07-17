@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <platform.version>2024.1.7</platform.version>
+        <platform.version>2024.1.9</platform.version>
     </properties>
 
     <dependencies>

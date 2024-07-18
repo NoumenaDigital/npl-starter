@@ -36,7 +36,7 @@ You should now be able to start programming NPL!
 ### Setup check
 
 To ensure your development environment is ready, tests provided in the project should pass.
-The setup can be tested by running a test in the `src/test/npl/seed/test_iou.npl` file.
+The setup can be tested by running a test in the `src/test/npl/objects/test_iou.npl` file.
 
 When clicking on the green arrow next to a test, select run all tests or run test in the current file.
 Tests should execute and all should pass. If so, your development environment is ready.

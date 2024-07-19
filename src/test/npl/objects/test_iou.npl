@@ -15,6 +15,7 @@ function test_initial_amount_owed(test: Test) -> {
 
     var iou = Iou[ISSUER, PAYEE](100);
 
+
     test.assertEquals(iou.balance, Balance(0,0,0));
 };
 

@@ -5,11 +5,19 @@ struct TimestampedAmount {
     timestamp: DateTime
 };
 
+struct Balance {
+    frozen: Number,
+    locked: Number,
+    cleared: Number
+}
+
 function total(entries: List<TimestampedAmount>) -> entries.map(function(p: TimestampedAmount) -> p.amount).sum();
 
 @api
 protocol[issuer, payee] Iou(var forAmount: Number) {
     require(forAmount > 0, "Initial amount must be strictly positive");
+
+    var balance: Balance = Balance(0,0,0);
 
     initial state unpaid;
     final state paid;

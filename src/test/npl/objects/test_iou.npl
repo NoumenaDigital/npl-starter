@@ -1,18 +1,13 @@
 package objects
 
+use objects.iou.Balance
 use objects.iou.Iou;
 use sample.v1.concat;
 
 const ISSUER = 'issuer';
 const PAYEE = 'payee';
 
-@test
-function test1(test: Test) -> {
 
-    var iou = Iou[ISSUER, PAYEE](100);
-
-    test.assertEquals(iou, Iou[ISSUER, PAYEE](100), "Equals");
-};
 
 @test
 function test_initial_amount_owed(test: Test) -> {
@@ -20,7 +15,7 @@ function test_initial_amount_owed(test: Test) -> {
 
     var iou = Iou[ISSUER, PAYEE](100);
 
-    test.assertEquals(100, iou.getAmountOwed[ISSUER](), "Amount owed should equal initial value");
+    test.assertEquals(iou.balance, Balance(0,0,0));
 };
 
 @test

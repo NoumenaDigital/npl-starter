@@ -3,7 +3,6 @@ package processes
 use objects.car.Car
 use objects.car.Color
 use objects.iou.Iou
-use sample.v1.concat;
 
 const bob = 'Bob';
 const alice = 'Alice';
@@ -13,8 +12,6 @@ function demoIou() -> {
 };
 
 function demoSettle() -> {
-    info(concat("NPL contrib ", "is enabled"));
-
     var car = Car[bob]("VW Beetle", Color.Red);
     var iou = Iou[bob, alice](5000);
 

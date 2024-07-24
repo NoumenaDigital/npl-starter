@@ -4,6 +4,8 @@ Starter project intended to be a quick start for writing NPL.
 
 ## Installation
 
+First, install the [NPL-Dev](https://plugins.jetbrains.com/plugin/22954-noumena-protocol-language-npl-) plugin in IntelliJ if it is not already installed.
+
 Two methods are available for cloning and utilizing the project:
 
 1) Via the command shell, first create a directory and then execute the git clone command
@@ -13,11 +15,8 @@ git clone git@github.com:NoumenaDigital/npl-starter.git
 
 or
 
-2) Through IntelliJ, if it's your initial use of Github in IntelliJ, select 'Get from VCS', opt for 'Github', sign into
-   your Github account, authorize Github in the browser, input your password, and upon successful Github authentication,
-   return to IntelliJ where you'll find all Noumena's repositories. Simply search for npl-starter to clone it.
+2) Through IntelliJ, if it's your initial use of Github in IntelliJ, navigate to the 'Projects' tab in the sidebar, select 'Get from VCS', select 'Git' in the 'Version control' dropdown, and copy this URL into the URL field: https://github.com/NoumenaDigital/npl-starter.git. You must choose a location on your machine in the 'Directory' field to clone to the project. 
 
-Install the [NPL-Dev](https://plugins.jetbrains.com/plugin/22954-noumena-protocol-language-npl-) plugin in IntelliJ.
 
 In IntelliJ, go to `File`, `Open...`, navigate to the directory, and simply open it. Once imported, right-click on the 
 folder `src/main/npl`, go to `Mark directory as` and select `Sources Root`. Similarly mark `src/main/test` as 

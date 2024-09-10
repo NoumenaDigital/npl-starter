@@ -1,0 +1,30 @@
+package npl.objects.tokenization
+
+use objects.tokenization.Account
+use objects.tokenization.Asset
+use objects.tokenization.AssetFund
+use objects.tokenization.Order
+use objects.tokenization.USD
+
+const snb = 'Swiss National Bank';
+const issuer = 'Issuer'
+const milos = 'Milos';
+const sam = 'Sam';
+
+function excahngeDemo() -> {
+    var assetFund = AssetFund[snb, issuer]("Milos is getting rich");
+    assetFund.issueAssets[issuer](300);
+
+    var assetToSell = assetFund.allocateAssets[issuer, milos](100);
+    var assetToKeep = assetFund.allocateAssets[issuer,milos](200);
+
+    var samAccount = Account[snb, sam](USD(1000), listOf<Asset>());
+    var milosAccount = Account[snb, milos](USD(0), listOf<Asset>(assetToSell, assetToKeep));
+
+    var price = USD(500);
+    var order = Order[snb, milos, sam](assetToSell, price, milosAccount, samAccount);
+
+    order.executeOrder[snb]();
+
+    info("done");
+};

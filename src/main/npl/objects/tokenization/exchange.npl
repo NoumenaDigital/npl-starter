@@ -1,0 +1,108 @@
+package objects.tokenization
+
+symbol USD;
+
+function sumAssetBalance(assets: List<Asset>) returns Number -> {
+    return assets.map(function(t: Asset) returns Number -> t.balance).sum();
+};
+
+@api
+protocol[issuer, owner] Asset(var balance: Number) {
+    permission[owner & *newOwner] transferOwnership() {
+        this.owner = newOwner;
+    };
+};
+
+@api
+protocol[owner] Cash(var amount: USD) {
+    initial state created;
+    final state spent;
+
+    permission[owner & *newOwner] transferOwnership() | created {
+        amount = amount + USD(50);
+        this.owner = newOwner;
+    };
+
+    permission[owner] spend() returns USD | created {
+        become spent;
+        return amount;
+    };
+};
+
+protocol[bank, owner] Account(var cashBalance: USD, var assets: List<Asset>) {
+
+    permission[bank] blockCash(amount: USD) returns Cash {
+        require((cashBalance.minus(amount).toNumber() >= 0), "Remaining balance can't be negative");
+        cashBalance = cashBalance.minus(amount);
+        return Cash[owner](amount);
+    };
+
+    permission[bank] blockAsset(asset: Asset) returns Asset {
+        require((assets.contains(asset)), "Must own an asset");
+        assets = assets.without(asset);
+        return asset;
+    };
+
+    permission[bank] addCash(amount: Cash) {
+        cashBalance = cashBalance.plus(amount.spend[owner]());
+    };
+
+    permission[bank] addAsset(asset: Asset) {
+        assets = assets.with(asset);
+    };
+};
+
+@api
+protocol[bank, issuer] AssetFund(name: Text) {
+    initial state fundCreated;
+    state issued;
+    final state allAllocated;
+
+    var issuedAssets = 0;
+    var allocatedAssets = listOf<Asset>();
+
+    permission[issuer] issueAssets(n: Number) | fundCreated {
+        issuedAssets = n;
+        become issued;
+    };
+
+    permission[issuer & *client] allocateAssets(n: Number) returns Asset | issued {
+        require(issuedAssets - sumAssetBalance(allocatedAssets) >= n, "Not enough assets to allocate");
+
+        var newAsset = Asset[issuer, client](n);
+        allocatedAssets = allocatedAssets.with(newAsset);
+
+        if (issuedAssets == sumAssetBalance(allocatedAssets)) {
+            become allAllocated;
+        };
+
+        return newAsset;
+    };
+
+    permission[bank | issuer] unallocatedAssets() returns Number {
+        return issuedAssets - sumAssetBalance(allocatedAssets);
+    };
+};
+
+@api
+protocol[bank, seller, buyer] Order(
+    var asset: Asset,
+    var price: USD,
+    var sellerAccount: Account,
+    var buyerAccount: Account
+) {
+    initial state created;
+    final state executed;
+
+    var blockedCash: Cash = buyerAccount.blockCash[bank](price);
+    var blockedAsset: Asset = sellerAccount.blockAsset[bank](asset);
+
+    @api
+    permission[bank] executeOrder() | created {
+        blockedAsset.transferOwnership[seller, buyer]();
+        blockedCash.transferOwnership[buyer, seller]();
+        sellerAccount.addCash[bank](blockedCash);
+        buyerAccount.addAsset[bank](blockedAsset);
+        become executed;
+    };
+};

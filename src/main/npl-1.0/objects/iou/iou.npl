@@ -12,8 +12,9 @@ protocol[issuer, payee] Iou(var forAmount: Number) {
     require(forAmount > 0, "Initial amount must be strictly positive");
 
     initial state unpaid;
-    final state paid;
+    state repaid;
     final state forgiven;
+    final state confirmed_repaid;
 
     private var payments = listOf<TimestampedAmount>();
 
@@ -29,13 +30,18 @@ protocol[issuer, payee] Iou(var forAmount: Number) {
         payments = payments.with(p);
 
         if (amountOwed() == 0) {
-            become paid;
+            become repaid;
         };
     };
 
     @api
     permission[payee] forgive() | unpaid {
         become forgiven;
+    };
+
+    @api
+    permission[payee] confirmRepaid() | repaid {
+        become confirmed_repaid;
     };
 
     @api

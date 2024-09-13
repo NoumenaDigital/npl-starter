@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="deploy to prod" type="com.noumenadigital.npl.idea.run.paas.deploy" baseUrl="https://portal.noumena.cloud" appName="cbb9984c-3d65-4ffb-99fe-3c8c3c98f66d" username="ari@noumenadigital.com" sourcePath="$PROJECT_DIR$/src/main" rapidDeploy="true" configurationId="09b3fa6d-509d-49ff-8dc2-9c4218c8b938" pwModified="1726228695169">
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,4 +1,4 @@
-systemUnderAudit: inv
+systemUnderAudit: demo
 
 changesets:
   - name: 1.0.0

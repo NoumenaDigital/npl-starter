@@ -20,14 +20,16 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>npl-codegen</goal>
                             <goal>npl-puml</goal>
                             <goal>npl-compile</goal>
                             <goal>npl-test-compile</goal>
                             <goal>npl-test</goal>
+                            <goal>npl-api</goal>
                         </goals>
                         <configuration>
                             <enableCompilerOptimisations>true</enableCompilerOptimisations>
+                            <sources>${project.basedir}/src/main/npl-1.0</sources>
+                            <testSources>${project.basedir}/src/test/npl</testSources>
                         </configuration>
                     </execution>
                 </executions>

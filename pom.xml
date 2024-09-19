@@ -29,7 +29,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <enableCompilerOptimisations>true</enableCompilerOptimisations>
                     <sources>${project.basedir}/src/main/npl-1.0</sources>
                     <testSources>${project.basedir}/src/test/npl</testSources>
                 </configuration>

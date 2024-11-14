@@ -15,5 +15,5 @@ function demoSettle() -> {
     var car = Car[bob]("VW Beetle", Color.Red);
     var iou = Iou[bob, alice](5000);
 
-    Settle[alice, bob](iou, car);
+    Settle[alice, bob](iou, car).swap[bob]();
 };

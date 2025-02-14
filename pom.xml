@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <platform.version>2024.2.4</platform.version>
+        <platform.version>2024.2.12</platform.version>
     </properties>
 
     <build>
@@ -25,12 +25,14 @@
                             <goal>npl-test-compile</goal>
                             <goal>npl-test</goal>
                             <goal>npl-api</goal>
+                            <goal>npl-multigen</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
                     <sources>${project.basedir}/src/main/npl-1.0</sources>
                     <testSources>${project.basedir}/src/test/npl</testSources>
+                    <multinodeDefinitionOutputDirectory></multinodeDefinitionOutputDirectory>
                 </configuration>
             </plugin>
         </plugins>

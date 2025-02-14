@@ -1,0 +1,22 @@
+package objects.registry
+
+struct IouData {
+    amount: Number,
+    owner: Text,
+    recipient: Text
+}
+
+struct UserStatus {
+    status: Text,
+    owedAmount: Number,
+    ownsAmount: Number
+}
+
+protocol[register] Registry() {
+
+    @multinode
+    permission[register] registerIou(data: IouData) returns UserStatus {
+        // TODO: Implement
+        return UserStatus(status = "registered", owedAmount = 0, ownsAmount = 0);
+    }
+};

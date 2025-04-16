@@ -7,14 +7,14 @@ const PAYEE = 'payee';
 
 @test
 function test_initial_amount_owed(test: Test) -> {
-    var iou = Iou[ISSUER, PAYEE](100);
+    var iou = Iou[ISSUER, PAYEE](100, now() + days(1), 0);
 
     test.assertEquals(100, iou.getAmountOwed[ISSUER](), "Amount owed should equal initial value");
 };
 
 @test
 function test_amount_owed_after_pay(test: Test) -> {
-    var iou = Iou[ISSUER, PAYEE](100);
+    var iou = Iou[ISSUER, PAYEE](100, now() + days(1), 0);
     iou.pay[ISSUER](50);
 
     test.assertEquals(50, iou.getAmountOwed[ISSUER](), "Amount owed should reflect payment");
@@ -22,14 +22,14 @@ function test_amount_owed_after_pay(test: Test) -> {
 
 @test
 function test_pay_negative_amount(test: Test) -> {
-    var iou = Iou[ISSUER, PAYEE](100);
+    var iou = Iou[ISSUER, PAYEE](100, now() + days(1), 0);
 
     test.assertFails(function() -> iou.pay[ISSUER](-10), "Paying negative amounts should fail");
 };
 
 @test
 function test_overpaying(test: Test) -> {
-    var iou = Iou[ISSUER, PAYEE](100);
+    var iou = Iou[ISSUER, PAYEE](100, now() + days(1), 0);
 
     test.assertFails(function() -> iou.pay[ISSUER](101), "Overpaying should fail");
 };

@@ -1,22 +1,29 @@
 # npl-starter
 
-Starter project intended to be a quick start for writing NPL.
+Starter project intended to illustrate key aspects of NPL and provide a quick start for writing and deploying NPL.
+
+This project mirrors aspects of the 
+[standard NPL project structure](https://documentation.noumenadigital.com/tracks/creating-project/#understanding-the-project-structure), 
+with the exception that `src` appears here at (module) top level. In addition, this project provides a `pom.xml` to 
+allow building and testing with Maven.
 
 ## Installation
 
-First, install the [NPL-Dev](https://plugins.jetbrains.com/plugin/22954-noumena-protocol-language-npl-) plugin in IntelliJ if it is not already installed.
+If you are developing locally with an IDE (IntelliJ, VS Code, Cursor, ...):
 
-Two methods are available for cloning and utilizing the project:
-
-1) Via the command shell, first create a directory and then execute the git clone command
+- Install the [NPL CLI](https://documentation.noumenadigital.com/runtime/tools/build-tools/cli/).
+- Install the [NPL-Dev plugin](https://documentation.noumenadigital.com/language/tools/) corresponding to your IDE.
+- Via the command shell, first create a directory and then execute the git clone command
 ```
 git clone git@github.com:NoumenaDigital/npl-starter.git
 ```
 
-or
+If you wish to use GitHub Codespaces instead, make sure you are logged into GitHub, open this project from the 
+[npl-starter repository](https://github.com/NoumenaDigital/npl-starter/), and click on the `Use this template` button 
+top right. The NPL CLI, docker and the VS Code NPL-Dev extension will automatically be installed for you in the 
+Codespace.
 
-2) Through IntelliJ, if it's your initial use of Github in IntelliJ, navigate to the 'Projects' tab in the sidebar, select 'Get from VCS', select 'Git' in the 'Version control' dropdown, and copy this URL into the URL field: https://github.com/NoumenaDigital/npl-starter.git. You must choose a location on your machine in the 'Directory' field to clone to the project. 
-
+## Import into IntelliJ
 
 In IntelliJ, go to `File`, `Open...`, navigate to the directory, and simply open it. Once imported, right-click on the 
 folder `src/main/npl`, go to `Mark directory as` and select `Sources Root`. Similarly mark `src/main/test` as 

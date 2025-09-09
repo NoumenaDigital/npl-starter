@@ -79,7 +79,7 @@ The tests located in `src/test/npl/objects/test_iou.npl` can be run or debugged 
 
 This project also provides `docker-compose.yml` and `.npl/deploy.yml` configuration files to deploy the NPL code to an 
 NPL Runtime running locally in `DEV_MODE`. For more information on this, as well as deployments to NOUMENA Cloud, please
-refer to the [Starter tracks](https://documentation.noumenadigital.com/tracks/).
+refer to the documentation [Starter tracks](https://documentation.noumenadigital.com/tracks/).
 
 ## Support
 

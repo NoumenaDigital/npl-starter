@@ -13,9 +13,13 @@ If you are developing locally with an IDE (IntelliJ, VS Code, Cursor, ...):
 
 - Install the [NPL CLI](https://documentation.noumenadigital.com/runtime/tools/build-tools/cli/).
 - Install the [NPL-Dev plugin](https://documentation.noumenadigital.com/language/tools/) corresponding to your IDE.
-- Via the command shell, first create a directory and then execute the git clone command
+- Via the command shell, execute the git clone command
 ```
 git clone git@github.com:NoumenaDigital/npl-starter.git
+```
+OR create a simple local copy of that project using the NPL CLI:
+```
+npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/master.zip
 ```
 
 If you wish to use GitHub Codespaces instead, make sure you are logged into GitHub, open this project from the 

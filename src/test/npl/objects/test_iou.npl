@@ -9,15 +9,24 @@ const PAYEE = 'payee';
 function test_initial_amount_owed(test: Test) -> {
     var iou = Iou[ISSUER, PAYEE](100);
 
-    test.assertEquals(100, iou.getAmountOwed[ISSUER](), "Amount owed should equal initial value");
+    test.assertEquals(100, iou.amountOwed, "Amount owed should equal initial value");
 };
 
 @test
 function test_amount_owed_after_pay(test: Test) -> {
     var iou = Iou[ISSUER, PAYEE](100);
-    iou.pay[ISSUER](50);
+    iou.pay[ISSUER](25);
 
-    test.assertEquals(50, iou.getAmountOwed[ISSUER](), "Amount owed should reflect payment");
+    test.assertEquals(100, iou.amountOwed, "Amount owed should not reflect unconfirmed payment");
+};
+
+@test
+function test_amount_owed_after_confirmPayment(test: Test) -> {
+    var iou = Iou[ISSUER, PAYEE](100);
+    iou.pay[ISSUER](25);
+    iou.confirmPayment[PAYEE]();
+
+    test.assertEquals(75, iou.amountOwed, "Amount owed should reflect confirmed payment");
 };
 
 @test

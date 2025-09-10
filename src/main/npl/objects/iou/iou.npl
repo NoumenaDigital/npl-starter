@@ -1,45 +1,49 @@
-package objects.iou
+package objects.iou;
 
 struct TimestampedAmount {
     amount: Number,
     timestamp: DateTime
 };
 
-function total(entries: List<TimestampedAmount>) -> entries.map(function(p: TimestampedAmount) -> p.amount).sum();
-
 @api
-protocol[issuer, payee] Iou(var forAmount: Number) {
+protocol[borrower, lender] Iou(var forAmount: Number) {
     require(forAmount > 0, "Initial amount must be strictly positive");
 
-    initial state unpaid;
-    final state paid;
-    final state forgiven;
+    initial state owed;
+    state awaiting_payment_confirmation;
+    final state settled;
+    final state cancelled;
 
-    private var payments = listOf<TimestampedAmount>();
-
-    function amountOwed() returns Number -> forAmount - total(payments);
+    var amountOwed: Number = forAmount;
+    var paymentToBeConfirmed: Optional<TimestampedAmount> = optionalOf<TimestampedAmount>();
 
     @api
-    permission[issuer] pay(amount: Number) | unpaid {
+    permission[borrower] pay(amount: Number) | owed {
         require(amount > 0, "Amount must be strictly positive");
-        require(amount <= amountOwed(), "Amount may not exceed amount owed");
+        require(amount <= amountOwed, "Amount may not exceed amount owed");
 
-        var p = TimestampedAmount(amount = amount, timestamp = now());
+        paymentToBeConfirmed = optionalOf(
+            TimestampedAmount(amount = amount, timestamp = now())
+        );
 
-        payments = payments.with(p);
+        become awaiting_payment_confirmation;
+    };
 
-        if (amountOwed() == 0) {
-            become paid;
+    @api
+    permission[lender] confirmPayment() | awaiting_payment_confirmation {
+
+        amountOwed = amountOwed - paymentToBeConfirmed.getOrFail().amount;
+        paymentToBeConfirmed = optionalOf<TimestampedAmount>();
+
+        if (amountOwed == 0) {
+            become settled;
+        } else {
+            become owed;
         };
     };
 
     @api
-    permission[payee] forgive() | unpaid {
-        become forgiven;
-    };
-
-    @api
-    permission[issuer|payee] getAmountOwed() returns Number {
-        return amountOwed();
+    permission[lender] cancel() | owed {
+        become cancelled;
     };
 }

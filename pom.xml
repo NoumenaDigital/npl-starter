@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <platform.version>2025.1.0</platform.version>
+        <platform.version>2025.2.0</platform.version>
     </properties>
 
     <build>

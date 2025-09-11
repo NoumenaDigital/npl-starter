@@ -19,13 +19,13 @@ git clone git@github.com:NoumenaDigital/npl-starter.git
 ```
 OR create a simple local copy of that project using the NPL CLI:
 ```
-npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/master.zip
+npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/iou-bare.zip
 ```
 
 If you wish to use GitHub Codespaces instead, make sure you are logged into GitHub, open this project from the 
-[npl-starter repository](https://github.com/NoumenaDigital/npl-starter/), and click on the `Use this template` button 
-top right. The NPL CLI, docker and the VS Code NPL-Dev extension will automatically be installed for you in the 
-Codespace.
+`iou-bare` branch of the [npl-starter repository](https://github.com/NoumenaDigital/npl-starter/tree/iou-bare), and 
+click on the `Use this template` button top right. The NPL CLI, docker and the VS Code NPL-Dev extension will 
+automatically be installed for you in the Codespace.
 
 ## Checking the installation
 
@@ -36,8 +36,8 @@ You should now be able to start programming NPL!
 
 ## Understanding the example
 
-The code in the `npl-starter` repository illustrate the settlement of a debt, also referred to as IOU, against a car.
-When the car is transferred, an IOU issued by the first car owner is forgiven.
+The code in the `iou-bare` branch of the `npl-starter` repository illustrate the settlement of a debt, also referred to 
+as IOU, with partial or complete payment and payment confirmation logic.
 
 This example can help you get familiar with the key concepts of NPL like protocols and state machines.
 To implement your own use-case, you can create new folders and files in the `src/main/npl` folder.

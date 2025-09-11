@@ -9,8 +9,9 @@ struct TimestampedAmount {
 protocol[borrower, lender] Iou(var forAmount: Number) {
     require(forAmount > 0, "Initial amount must be strictly positive");
 
-    initial state owed;
-    state awaiting_payment_confirmation;
+    initial state issued;
+    state awaitingPaymentConfirmation;
+    state partiallySettled;
     final state settled;
     final state cancelled;
 
@@ -18,7 +19,7 @@ protocol[borrower, lender] Iou(var forAmount: Number) {
     var paymentToBeConfirmed: Optional<TimestampedAmount> = optionalOf<TimestampedAmount>();
 
     @api
-    permission[borrower] pay(amount: Number) | owed {
+    permission[borrower] pay(amount: Number) | issued, partiallySettled {
         require(amount > 0, "Amount must be strictly positive");
         require(amount <= amountOwed, "Amount may not exceed amount owed");
 
@@ -26,24 +27,24 @@ protocol[borrower, lender] Iou(var forAmount: Number) {
             TimestampedAmount(amount = amount, timestamp = now())
         );
 
-        become awaiting_payment_confirmation;
+        become awaitingPaymentConfirmation;
     };
 
     @api
-    permission[lender] confirmPayment() | awaiting_payment_confirmation {
+    permission[lender] confirmPayment() | awaitingPaymentConfirmation {
 
         amountOwed = amountOwed - paymentToBeConfirmed.getOrFail().amount;
         paymentToBeConfirmed = optionalOf<TimestampedAmount>();
 
-        if (amountOwed == 0) {
-            become settled;
+        if (amountOwed > 0) {
+            become partiallySettled;
         } else {
-            become owed;
+            become settled;
         };
     };
 
     @api
-    permission[lender] cancel() | owed {
+    permission[lender] cancel() {
         become cancelled;
     };
 }

@@ -1,13 +1,13 @@
 package objects.iou;
 
-struct TimestampedAmount {
+struct Payment {
     amount: Number,
     timestamp: DateTime
 };
 
 @api
-protocol[borrower, lender] Iou(var forAmount: Number) {
-    require(forAmount > 0, "Initial amount must be strictly positive");
+protocol[borrower, lender] Iou(var initialDebt: Number) {
+    require(initialDebt > 0, "Initial debt must be strictly positive");
 
     initial state issued;
     state awaitingPaymentConfirmation;
@@ -15,16 +15,16 @@ protocol[borrower, lender] Iou(var forAmount: Number) {
     final state settled;
     final state cancelled;
 
-    var amountOwed: Number = forAmount;
-    var paymentToBeConfirmed: Optional<TimestampedAmount> = optionalOf<TimestampedAmount>();
+    var remainingDebt: Number = initialDebt;
+    var paymentClaim: Optional<Payment> = optionalOf<Payment>();
 
     @api
     permission[borrower] pay(amount: Number) | issued, partiallySettled {
-        require(amount > 0, "Amount must be strictly positive");
-        require(amount <= amountOwed, "Amount may not exceed amount owed");
+        require(amount > 0, "Payment amount must be strictly positive");
+        require(amount <= remainingDebt, "Payment amount may not exceed remaining debt");
 
-        paymentToBeConfirmed = optionalOf(
-            TimestampedAmount(amount = amount, timestamp = now())
+        paymentClaim = optionalOf(
+            Payment(amount = amount, timestamp = now())
         );
 
         become awaitingPaymentConfirmation;
@@ -33,10 +33,10 @@ protocol[borrower, lender] Iou(var forAmount: Number) {
     @api
     permission[lender] confirmPayment() | awaitingPaymentConfirmation {
 
-        amountOwed = amountOwed - paymentToBeConfirmed.getOrFail().amount;
-        paymentToBeConfirmed = optionalOf<TimestampedAmount>();
+        remainingDebt = remainingDebt - paymentClaim.getOrFail().amount;
+        paymentClaim = optionalOf<Payment>();
 
-        if (amountOwed > 0) {
+        if (remainingDebt > 0) {
             become partiallySettled;
         } else {
             become settled;

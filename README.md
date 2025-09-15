@@ -75,7 +75,7 @@ from the file gutter.
 
 The tests located in `src/test/npl/objects/test_iou.npl` can be run or debugged in a similar manner.
 
-## Deploying your code
+## Deploying your code and interacting with the NPL application
 
 This project also provides `docker-compose.yml` and `.npl/deploy.yml` configuration files to deploy the NPL code to an 
 NPL Runtime running locally in `DEV_MODE`. For more information on this, as well as deployments to NOUMENA Cloud, please
@@ -106,7 +106,7 @@ If you prefer to interact with the deployed code on the command line, follow the
 Authenticate with the embedded OIDC server as user alice and fetch a token with:
 
 ```shell
-export ACCESS_TOKEN=$(curl -s 'http://localhost:11000/token' \
+export ACCESS_TOKEN_ALICE=$(curl -s 'http://localhost:11000/token' \
     -d 'username=alice' \
     -d 'password=password123' \
     -d 'grant_type=password' | \
@@ -121,7 +121,7 @@ Create a new IOU instance between `alice` and `bob` (identified by their emails)
 export INSTANCE_ID=$(curl -s 'POST' \
   'http://localhost:12000/npl/objects/iou/Iou/' \
   -H 'accept: application/json' \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Authorization: Bearer $ACCESS_TOKEN_ALICE" \
   -H 'Content-Type: application/json' \
   -d '{
         "initialDebt": 100,
@@ -129,20 +129,14 @@ export INSTANCE_ID=$(curl -s 'POST' \
           "borrower": {
             "claims": {
               "email": [
-                "john.doe@example.com"
-              ],
-              "organization": [
-                "Example"
+                "alice@example.com"
               ]
             }
           },
           "lender": {
             "claims": {
               "email": [
-                "john.doe@example.com"
-              ],
-              "organization": [
-                "Example"
+                "bob@example.com"
               ]
             }
           }
@@ -154,7 +148,111 @@ export INSTANCE_ID=$(curl -s 'POST' \
 To control as part of the deployed code what claims can be bound to the IOU parties, use 
 [Party Automation](https://documentation.noumenadigital.com/language/concepts/authorization/PartyAutomation/).
 
+Inspect that IOU as user `alice`, using the token fetched above, with:
 
+```shell
+curl -X GET "http://localhost:12000/npl/objects/iou/Iou/$INSTANCE_ID/" \
+  -H "Authorization: Bearer $ACCESS_TOKEN_ALICE"
+```
+
+As user `alice`, claim a payment of `30` towards the IOU instance created above, with:
+
+```shell
+curl -X 'POST' \
+  "http://localhost:12000/npl/objects/iou/Iou/$INSTANCE_ID/pay" \
+  -H 'accept: application/json' \
+  -H "Authorization: Bearer $ACCESS_TOKEN_ALICE" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "amount": 30
+  }'
+```
+
+Fetch an access token for user `bob` with:
+
+```shell
+export ACCESS_TOKEN_BOB=$(curl -s 'http://localhost:11000/token' \
+    -d 'username=bob' \
+    -d 'password=password123' \
+    -d 'grant_type=password' | \
+    jq -r .access_token)
+```
+
+List all IOU instances user `bob` has at least read access to, with:
+
+```shell
+curl -X GET http://localhost:12000/npl/objects/iou/Iou/ \
+  -H "Authorization: Bearer $ACCESS_TOKEN_BOB"
+```
+
+As user `bob`, confirm receipt of the payment reported by `alice`on the IOU instance, with:
+
+```shell
+curl -X 'POST' \
+  "http://localhost:12000/npl/objects/iou/Iou/$INSTANCE_ID/confirmPayment" \
+  -H 'accept: application/json' \
+  -H "Authorization: Bearer $ACCESS_TOKEN_BOB"
+```
+
+Fetch an access token for user `eve` with:
+
+```shell
+export ACCESS_TOKEN_EVE=$(curl -s 'http://localhost:11000/token' \
+    -d 'username=eve' \
+    -d 'password=password123' \
+    -d 'grant_type=password' | \
+    jq -r .access_token)
+```
+
+Check that user `eve` has no access to the IOU instance created above, with:
+
+```shell
+curl -X GET http://localhost:12000/npl/objects/iou/Iou/ \
+  -H "Authorization: Bearer $ACCESS_TOKEN_EVE"
+```
+
+Now, as user `alice` create a second IOU instance between `alice` and a party defined with `company: Noumena Digital` 
+and `groups: finance` claims. When doing so, make sure `alice`'s access token has not expired, or generate a new one. 
+Then, query the NPL API with:
+
+```shell
+export INSTANCE_ID_TWO=$(curl -s 'POST' \
+  'http://localhost:12000/npl/objects/iou/Iou/' \
+  -H 'accept: application/json' \
+  -H "Authorization: Bearer $ACCESS_TOKEN_ALICE" \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "initialDebt": 100,
+        "@parties": {
+          "borrower": {
+            "claims": {
+              "email": [
+                "alice@example.com"
+              ]
+            }
+          },
+          "lender": {
+            "claims": {
+              "company": [
+                "Noumena Digital"
+              ],
+              "groups": [
+                "finance"
+              ]
+            }
+          }
+        }
+      }' | \
+  jq -r '."@id"')
+```
+
+Check that user `frank` defined among 
+[pre-seeded users in the embedded OIDC](https://documentation.noumenadigital.com/runtime/deployment/configuration/Engine-Dev-Mode/#embedded-oidc-and-seeded-users), 
+who has the required claims, can see that IOU instance, while user `peggy` cannot.
+
+Note that `alice`can create IOU instances with `borrower` claims other than her user claims, unless
+[Party Automation](https://documentation.noumenadigital.com/language/concepts/authorization/PartyAutomation/) rules are 
+added the NPL code deployed.
 
 ## Support
 

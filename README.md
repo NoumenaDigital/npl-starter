@@ -14,13 +14,13 @@ If you are developing locally with an IDE (IntelliJ, VS Code, Cursor, ...):
 - Install the [NPL CLI](https://documentation.noumenadigital.com/runtime/tools/build-tools/cli/).
 - Install the [NPL-Dev plugin](https://documentation.noumenadigital.com/language/tools/) corresponding to your IDE.
 - Via the command shell, execute the git clone command
-```
-git clone git@github.com:NoumenaDigital/npl-starter.git
-```
-OR create a simple local copy of that project using the NPL CLI:
-```
-npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/iou-bare.zip
-```
+    ```shell
+    git clone git@github.com:NoumenaDigital/npl-starter.git
+    ```
+    OR create a simple local copy of that project using the NPL CLI:
+    ```shell
+    npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/iou-bare.zip
+    ```
 
 If you wish to use GitHub Codespaces instead, make sure you are logged into GitHub, open this project from the 
 `iou-bare` branch of the [npl-starter repository](https://github.com/NoumenaDigital/npl-starter/tree/iou-bare), and 
@@ -80,6 +80,81 @@ The tests located in `src/test/npl/objects/test_iou.npl` can be run or debugged 
 This project also provides `docker-compose.yml` and `.npl/deploy.yml` configuration files to deploy the NPL code to an 
 NPL Runtime running locally in `DEV_MODE`. For more information on this, as well as deployments to NOUMENA Cloud, please
 refer to the documentation [Starter tracks](https://documentation.noumenadigital.com/tracks/).
+
+Below are some steps to get your started from command line on Unix-based systems (Linux, MacOS, GitHub Codespaces) and 
+Windows with WSL.
+
+Start the NPL Runtime in DEV_MODE with:
+
+```shell
+docker compose up -d --wait
+```
+
+Deploy the NPL code with:
+
+```shell
+npl deploy --clear --sourceDir src/main
+```
+
+If you wish to interact with the deployed code using a swagger UI, open your browser and navigate to 
+`http://localhost:12000`. Under `Select a definition`, pick `NPL Application - ...` to see the available endpoints. 
+Under `Authorize`, select `oidc (OAuth2, password)` and provide username and password as indicated for the commandline 
+instructions below. `client_id` and `client_secret` can be left empty.
+
+If you prefer to interact with the deployed code on the command line, follow the steps below.
+
+Authenticate with the embedded OIDC server as user alice and fetch a token with:
+
+```shell
+export ACCESS_TOKEN=$(curl -s 'http://localhost:11000/token' \
+    -d 'username=alice' \
+    -d 'password=password123' \
+    -d 'grant_type=password' | \
+    jq -r .access_token)
+```
+
+If you do not have `jq` installed, extract the token by other means from the JSON response.
+
+Create a new IOU instance between `alice` and `bob` (identified by their emails), for an amount of `100`, with:
+
+```shell
+export INSTANCE_ID=$(curl -s 'POST' \
+  'http://localhost:12000/npl/objects/iou/Iou/' \
+  -H 'accept: application/json' \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "initialDebt": 100,
+        "@parties": {
+          "borrower": {
+            "claims": {
+              "email": [
+                "john.doe@example.com"
+              ],
+              "organization": [
+                "Example"
+              ]
+            }
+          },
+          "lender": {
+            "claims": {
+              "email": [
+                "john.doe@example.com"
+              ],
+              "organization": [
+                "Example"
+              ]
+            }
+          }
+        }
+      }' | \
+  jq -r '."@id"')
+```
+
+To control as part of the deployed code what claims can be bound to the IOU parties, use 
+[Party Automation](https://documentation.noumenadigital.com/language/concepts/authorization/PartyAutomation/).
+
+
 
 ## Support
 

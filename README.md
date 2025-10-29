@@ -19,7 +19,7 @@ git clone git@github.com:NoumenaDigital/npl-starter.git
 ```
 OR create a simple local copy of that project using the NPL CLI:
 ```
-npl init --projectDir my-npl-starter --templateUrl https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/master.zip
+npl init --project-dir my-npl-starter --template-url https://github.com/NoumenaDigital/npl-starter/archive/refs/heads/master.zip
 ```
 
 If you wish to use GitHub Codespaces instead, make sure you are logged into GitHub, open this project from the 
@@ -77,7 +77,7 @@ The tests located in `src/test/npl/objects/test_iou.npl` can be run or debugged 
 
 ## Deploying your code
 
-This project also provides `docker-compose.yml` and `.npl/deploy.yml` configuration files to deploy the NPL code to an 
+This project also provides `docker-compose.yml` and `npl.yml` configuration files to deploy the NPL code to an 
 NPL Runtime running locally in `DEV_MODE`. For more information on this, as well as deployments to NOUMENA Cloud, please
 refer to the documentation [Starter tracks](https://documentation.noumenadigital.com/tracks/).
 
